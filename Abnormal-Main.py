@@ -1,6 +1,7 @@
 import discord
 
 client = discord.Client()
+TOKEN = input('Enter your token\n')
 
 print('Starting...')
 @client.event
