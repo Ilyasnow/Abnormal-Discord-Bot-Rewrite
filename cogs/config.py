@@ -22,10 +22,10 @@ class ConfigFileIO:
         f = io.open(self.filename, 'r', encoding='utf16')
         self.config.read_file(f)
         f.close()
-        if section in config:
-            config[section][key] = str(value)
+        if section in self.config:
+            self.config[section][key] = str(value)
         else:
-            config[section] = {key:str(value)}
+            self.config[section] = {key:str(value)}
         f = io.open(self.filename, 'w', encoding='utf16')
         self.config.write(f)
         f.close()
@@ -36,9 +36,9 @@ class ConfigFileIO:
         f = io.open(self.filename, 'r', encoding='utf16')
         self.config.read_file(f)
         f.close()
-        if section in config:
-            if key in config[section]:
-                return config[section][key]
+        if section in self.config:
+            if key in self.config[section]:
+                return self.config[section][key]
         return ''
 
 class NamesConfig(ConfigFileIO):
@@ -46,14 +46,11 @@ class NamesConfig(ConfigFileIO):
     """
     
     def __init__(self, filename):
-        super().__init__(self, filename)
+        super().__init__(filename)
         
-    def write_name(uid, name):
+    def write_name(self, uid, name):
         """Format names and write to memory file
         """
-        f = io.open(self.filename, 'r', encoding='utf16')
-        self.config.read_file(f)
-        f.close()
         record = deque(self.read('Names', uid).split('\n'))
         if list(record) == ['']:
             record.clear()
@@ -62,12 +59,9 @@ class NamesConfig(ConfigFileIO):
             record.popleft()
         self.write('Names', uid, '\n'.join(record))
 
-    def write_nick(uid, nick):
+    def write_nick(self, uid, nick):
         """Format nick and write to memory file
         """
-        f = io.open(self.filename, 'r', encoding='utf16')
-        self.config.read_file(f)
-        f.close()
         record = deque(self.read('Nicks', uid).split('\n'))
         if list(record) == ['']:
             record.clear()
@@ -75,3 +69,17 @@ class NamesConfig(ConfigFileIO):
         if len(record) > 20:
             record.popleft()
         self.write('Nicks', uid, '\n'.join(record))
+
+class SettingsConfig(ConfigFileIO):
+    """Class for managing settings like channel IDs and whatnot
+    """
+
+    def __init__(self, filename):
+        super().__init__(filename)
+
+    def read_setting(self, key):
+        """Read [SETTINGS][key] and format into list
+        """
+        record = deque(self.read('SETTINGS',key).split('|'))
+        if list(record) == ['']:
+            record.clear()
