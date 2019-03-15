@@ -18,6 +18,6 @@ async def on_message(message):
     if message.channel.id != 477269419765006345:
         return
     
-    await message.channel.send(message.contents)
+    await message.channel.send(message.content)
 
 client.run(TOKEN)
