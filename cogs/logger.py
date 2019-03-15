@@ -12,6 +12,7 @@ attributes = {"Name":"loggger",
 filename = 'abnormal-{}.log'.format(time.strftime("%Y-%m-%d_%H-%M")) 
 
 class Logger():
+    """Class for duplicating <stream> to file."""
     def __init__(self, stream, file):
         self.stream = stream
         self.log = file
@@ -26,6 +27,7 @@ class Logger():
         pass
 
 def init():
+    """Create logger for stdout and stderr."""
     f = open(filename , encoding='utf-8', mode='a')
 
     sys.stdout = Logger(sys.stdout, f)
