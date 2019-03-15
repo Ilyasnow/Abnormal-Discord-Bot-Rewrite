@@ -83,3 +83,4 @@ class SettingsConfig(ConfigFileIO):
         record = deque(self.read('SETTINGS',key).split('|'))
         if list(record) == ['']:
             record.clear()
+        return list(record)
