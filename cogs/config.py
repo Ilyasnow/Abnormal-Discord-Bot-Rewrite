@@ -2,6 +2,13 @@ import configparser
 from collections import deque
 import io
 
+#Module for working with config-like files
+
+#module attributes
+attributes = {"Name":"config",
+              "Type":"lib",
+              "Description":"File I/O module"}
+
 class ConfigFileIO:
     """Base class for file read/write
     """
